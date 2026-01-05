@@ -55,7 +55,7 @@ jobs:
           file: exercise-toolkit/markdown-templates/step-feedback/checking-work.md
           edit-mode: replace
 
-      # START: Check practical exercise
+      # START: Check practical exercise second attempt
 
       - name: Check for additional student activities
         id: check-additional-activities
