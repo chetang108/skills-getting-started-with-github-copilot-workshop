@@ -1,16 +1,28 @@
 name: Lint Code Base
-on: [pull_request]
+on:
+  pull_request:
+    branches: [main, master]
 
 jobs:
   run-lint:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+      statuses: write # Required to report individual linter statuses
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          # Full history is required for the linter to detect changed files
+          fetch-depth: 0 
 
-      - name: Lint Code Base
+      - name: Super-Linter
         uses: super-linter/super-linter@v7
         env:
+          # Only lint changed files in the PR
+          VALIDATE_ALL_CODEBASE: false 
+          # The built-in token (no setup needed)
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Enable detailed job summaries in the PR
+          ENABLE_GITHUB_ACTIONS_STEP_SUMMARY: true 
