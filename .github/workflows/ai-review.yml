@@ -1,0 +1,28 @@
+name: AI Automated Code Review
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: AI Code Review
+        uses: anc95/ChatGPT-CodeReview@v1 # Example marketplace action
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        with:
+          # Your specific command is passed here as a parameter
+          prompt: |
+            Scan code changes and provide:
+            1. Code complexity analysis.
+            2. Number of lines changed.
+            3. Security checks for vulnerabilities (OWASP).
+            4. Coding standards compliance.
+            5. Possible next actions and vulnerabilities check results.
